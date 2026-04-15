@@ -1,6 +1,6 @@
-# Þórunn Íris Pétursdóttir – Baptism
+# Þórunn Íris Pétursdóttir – Dop
 
-Website for the baptism of Þórunn Íris Pétursdóttir, 15 August 2026, S:t Pauli kyrka, Malmö.
+Website for the dop of Þórunn Íris Pétursdóttir, 15 August 2026, S:t Pauli kyrka, Malmö.
 
 ## Development
 

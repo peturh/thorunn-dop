@@ -10,7 +10,7 @@
 
   const googleCalUrl =
     'https://calendar.google.com/calendar/render?action=TEMPLATE' +
-    '&text=D%C3%B6pelse%20%E2%80%93%20%C3%9E%C3%B3runn%20%C3%8Dris%20P%C3%A9tursd%C3%B3ttir' +
+    '&text=Dop%20%E2%80%93%20%C3%9E%C3%B3runn%20%C3%8Dris%20P%C3%A9tursd%C3%B3ttir' +
     '&dates=20260815T120000Z%2F20260815T140000Z' +
     '&location=S%3At%20Pauli%20kyrka%2C%20Kungsgatan%2017%2C%20Malm%C3%B6';
 
@@ -31,8 +31,8 @@
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@300;400;500;600;700&display=swap"
     rel="stylesheet"
   />
-  <title>Þórunn Íris Pétursdóttir – Döpelse</title>
-  <meta name="description" content="Välkommen på döpelse av Þórunn Íris Pétursdóttir" />
+  <title>Þórunn Íris Pétursdóttir – Dop</title>
+  <meta name="description" content="Välkommen på dop av Þórunn Íris Pétursdóttir" />
 </svelte:head>
 
 <!-- ═══════════════════════════════════════════════════ HERO ══ -->
@@ -113,7 +113,7 @@
 
   <!-- Hero Content -->
   <div class="hero-content">
-    <p class="welcome-text">Välkommen på döpelse av</p>
+    <p class="welcome-text">Välkommen på dop av</p>
     <h1 class="name-main">Þórunn Íris</h1>
     <h2 class="name-family">Pétursdóttir</h2>
     <div class="hero-divider">
