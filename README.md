@@ -1,24 +1,24 @@
-# Þórunn Íris Pétursdóttir – Döpelse
+# Þórunn Íris Pétursdóttir – Baptism
 
-Hemsida för döpelsen av Þórunn Íris Pétursdóttir, 15 augusti 2026, S:t Pauli kyrka, Malmö.
+Website for the baptism of Þórunn Íris Pétursdóttir, 15 August 2026, S:t Pauli kyrka, Malmö.
 
-## Utveckling
+## Development
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Bygg & förhandsgranska
+## Build & preview
 
 ```bash
 npm run build
 npm run preview
 ```
 
-## OSA-svar
+## RSVP responses
 
-Svar sparas i `data/rsvps.json`. Läs av dem med:
+Responses are saved to `data/rsvps.json`. Read them with:
 
 ```bash
 cat data/rsvps.json
@@ -26,11 +26,11 @@ cat data/rsvps.json
 
 ## Deployment
 
-Projektet använder `@sveltejs/adapter-node` och körs som en Node.js-server:
+The project uses `@sveltejs/adapter-node` and runs as a Node.js server:
 
 ```bash
 npm run build
 node build/index.js
 ```
 
-Sätt miljövariabeln `PORT` för att ändra port (standard: 3000).
+Set the `PORT` environment variable to change the port (default: 3000).
