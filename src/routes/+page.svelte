@@ -691,6 +691,10 @@
   .icon-divider :last-child.icon-divider-line {
     background: linear-gradient(to left, transparent, var(--blue-mid));
   }
+  @media (max-width: 500px) {
+    .icon-divider { flex-direction: column; gap: 6px; }
+    .icon-divider-line { display: none; }
+  }
 
   /* ── Info cards ─────────────────────────────────────────── */
   .info-section {
@@ -782,7 +786,7 @@
 
   /* Calendar hint – only shown on touch devices */
   .card-cal-hint {
-    display: none;
+    display: block;
     margin-top: 0.75rem;
     font-size: 0.78rem;
     font-weight: 600;
@@ -790,18 +794,14 @@
     letter-spacing: 0.03em;
   }
   .cal-hint {
-    display: none;
+    display: inline;
     font-size: 0.85rem;
     font-weight: 700;
     color: var(--pink-dark);
     margin-left: 4px;
   }
-  @media (pointer: coarse) {
-    .cal-card { cursor: pointer; }
-    .card-cal-hint { display: block; }
-    .cal-trigger { cursor: pointer; }
-    .cal-hint { display: inline; }
-  }
+  .cal-card { cursor: pointer; }
+  .cal-trigger { cursor: pointer; }
 
   /* ── Family section ─────────────────────────────────────── */
   .family-section {
