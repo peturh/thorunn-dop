@@ -824,9 +824,9 @@
     gap: 1.5rem;
     flex-wrap: wrap;
   }
-  @media (max-width: 560px) {
-    .family-grid { flex-direction: column; }
-    .family-and { transform: rotate(90deg); }
+  @media (max-width: 600px) {
+    .family-grid { flex-direction: column; align-items: stretch; }
+    .family-card { min-width: unset; width: 100%; }
   }
 
   .family-card {
