@@ -691,10 +691,6 @@
   .icon-divider :last-child.icon-divider-line {
     background: linear-gradient(to left, transparent, var(--blue-mid));
   }
-  @media (max-width: 500px) {
-    .icon-divider { flex-direction: column; gap: 6px; }
-    .icon-divider-line { display: none; }
-  }
 
   /* ── Info cards ─────────────────────────────────────────── */
   .info-section {
@@ -827,6 +823,10 @@
     justify-content: center;
     gap: 1.5rem;
     flex-wrap: wrap;
+  }
+  @media (max-width: 560px) {
+    .family-grid { flex-direction: column; }
+    .family-and { transform: rotate(90deg); }
   }
 
   .family-card {
