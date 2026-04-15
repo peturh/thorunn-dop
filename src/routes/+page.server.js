@@ -2,7 +2,8 @@ import { fail } from '@sveltejs/kit';
 import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
 
-const DATA_DIR = 'data';
+// Vercel's filesystem is read-only except /tmp (not persistent across deploys)
+const DATA_DIR = process.env.VERCEL ? '/tmp' : 'data';
 const RSVP_FILE = join(DATA_DIR, 'rsvps.json');
 
 function getRsvps() {
