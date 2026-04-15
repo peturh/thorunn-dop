@@ -904,6 +904,7 @@
     padding: 0.4rem 0;
   }
   .address-row strong {
+    flex-shrink: 0;
     min-width: 60px;
     color: var(--blue-dark);
     font-weight: 700;
@@ -912,6 +913,11 @@
     letter-spacing: 0.05em;
   }
   .address-row span { color: var(--text); font-weight: 500; }
+  @media (max-width: 480px) {
+    .address-row { flex-direction: column; gap: 0.2rem; }
+    .address-row strong { min-width: unset; }
+    .address-card { padding: 1.2rem 1.5rem; }
+  }
   .address-divider {
     height: 1px;
     background: var(--blue-mid);
