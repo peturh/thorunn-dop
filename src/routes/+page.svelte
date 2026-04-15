@@ -143,7 +143,7 @@
           <line x1="11" y1="11" x2="11" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
           <line x1="11" y1="11" x2="15" y2="11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
-        14:00
+        11:30
         <span class="cal-hint">＋</span>
       </span>
     </div>
@@ -211,7 +211,7 @@
       </div>
       <h3>Tid &amp; Datum</h3>
       <div class="card-divider"></div>
-      <p><strong>15 augusti 2026</strong><br />kl. 14:00</p>
+      <p><strong>15 augusti 2026</strong><br />kl. 11:30</p>
       <span class="card-cal-hint">＋ Lägg till i kalender</span>
     </div>
 
@@ -232,7 +232,7 @@
           <ellipse cx="30" cy="22" rx="20" ry="5" fill="#fbd0d7"/>
         </svg>
       </div>
-      <h3>Kaffe</h3>
+      <h3>Mottagning</h3>
       <div class="card-divider"></div>
       <p>S:t Paulis<br /><strong>församlingshem</strong></p>
       <span class="card-map-hint">Öppna i Google Maps ↗</span>
@@ -248,7 +248,7 @@
 </div>
 
 <!-- ════════════════════════════════════════════════ FAMILY ══ -->
-<section class="family-section">
+<section class="family-section" id="familj">
   <div class="section-label">Familj & Faddrar</div>
   <div class="icon-divider">
     <span class="icon-divider-line"></span>
@@ -362,7 +362,7 @@
       </div>
       <div class="address-divider"></div>
       <div class="address-row">
-        <strong>Kaffe</strong>
+        <strong>Mottagning</strong>
         <span>S:t Paulis församlingshem, Malmö</span>
       </div>
     </div>
@@ -822,11 +822,11 @@
     align-items: center;
     justify-content: center;
     gap: 1.5rem;
-    flex-wrap: wrap;
   }
   @media (max-width: 600px) {
-    .family-grid { flex-direction: column; align-items: stretch; }
-    .family-card { min-width: unset; width: 100%; }
+    .family-grid { flex-direction: column; }
+    .family-card { min-width: unset; width: 100%; max-width: 320px; }
+    .family-and { padding: 0.3rem 0; }
   }
 
   .family-card {
