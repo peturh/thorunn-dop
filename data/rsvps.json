@@ -1,1 +1,37 @@
-[]
+[
+  {
+    "timestamp": "2026-04-24T16:30:08.777Z",
+    "name": "Pétur",
+    "food": "Fisk"
+  },
+  {
+    "timestamp": "2026-04-24T16:30:08.777Z",
+    "name": "Lisa",
+    "food": "Fisk"
+  },
+  {
+    "timestamp": "2026-04-24T16:31:25.454Z",
+    "name": "Lisa",
+    "food": "Fisk"
+  },
+  {
+    "timestamp": "2026-04-24T16:31:25.454Z",
+    "name": "Petur",
+    "food": "Ingen"
+  },
+  {
+    "timestamp": "2026-04-24 18:34:29",
+    "name": "Lisa",
+    "food": "Fisk"
+  },
+  {
+    "timestamp": "2026-04-24 18:34:29",
+    "name": "Pétur",
+    "food": "Vegetarisk"
+  },
+  {
+    "timestamp": "2026-04-24 18:34:29",
+    "name": "Þorunn",
+    "food": "Ingen"
+  }
+]

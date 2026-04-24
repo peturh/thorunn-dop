@@ -2,11 +2,34 @@
   import { enhance } from '$app/forms';
   import { onMount } from 'svelte';
 
+  /** @type {import('./$types').PageData} */
+  export let data;
   /** @type {import('./$types').ActionData} */
   export let form;
 
   let submitting = false;
+  let unlocking = false;
   let calendarUrl = '';
+
+  $: unlocked = data.unlocked || form?.unlocked;
+
+  const FOOD_OPTIONS = [
+    { value: 'Fisk', label: 'Smörgåstårta: Fisk' },
+    { value: 'Vegetarisk', label: 'Smörgåstårta: Vegetarisk' },
+    { value: 'Ingen', label: 'Ingen smörgåstårta' }
+  ];
+
+  /** @type {{ name: string, food: string }[]} */
+  let members = [{ name: '', food: 'Fisk' }];
+
+  function addMember() {
+    members = [...members, { name: '', food: 'Fisk' }];
+  }
+
+  function removeMember(i) {
+    if (members.length <= 1) return;
+    members = members.filter((_, idx) => idx !== i);
+  }
 
   const googleCalUrl =
     'https://calendar.google.com/calendar/render?action=TEMPLATE' +
@@ -327,10 +350,177 @@
   </div>
 </section>
 
-<!-- Wave blue-soft → white -->
+<!-- Wave blue-soft → pink-soft -->
 <div class="wave-down">
   <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0,45 C480,0 960,90 1440,45 L1440,90 L0,90 Z" fill="#ffffff"/>
+    <path d="M0,45 C480,0 960,90 1440,45 L1440,90 L0,90 Z" fill="var(--pink-soft)"/>
+  </svg>
+</div>
+
+<!-- ══════════════════════════════════════════════════ RSVP ══ -->
+<section class="rsvp-section">
+  <div class="section-label" style="color: #c06070;">OSA</div>
+  <div class="icon-divider">
+    <span class="icon-divider-line" style="background: #f4a7b4;"></span>
+    <svg viewBox="0 0 60 82" fill="none" width="22">
+      <path d="M24,22 C24,12 36,12 36,22" fill="#fbd0d7" stroke="#f4a7b4" stroke-width="1.5"/>
+      <rect x="17" y="19" width="26" height="7" rx="2.5" fill="#f4a7b4"/>
+      <rect x="13" y="26" width="34" height="46" rx="13" fill="#89c4e1"/>
+      <rect x="13" y="46" width="34" height="26" rx="0 0 13 13" fill="#b3d9f2" opacity="0.7"/>
+      <ellipse cx="23" cy="36" rx="5" ry="9" fill="white" opacity="0.3"/>
+    </svg>
+    <svg viewBox="0 0 60 82" fill="none" width="28">
+      <path d="M24,22 C24,12 36,12 36,22" fill="#b3d9f2" stroke="#89c4e1" stroke-width="1.5"/>
+      <rect x="17" y="19" width="26" height="7" rx="2.5" fill="#89c4e1"/>
+      <rect x="13" y="26" width="34" height="46" rx="13" fill="#f4a7b4"/>
+      <rect x="13" y="46" width="34" height="26" rx="0 0 13 13" fill="#fbd0d7" opacity="0.7"/>
+      <ellipse cx="23" cy="36" rx="5" ry="9" fill="white" opacity="0.3"/>
+    </svg>
+    <svg viewBox="0 0 60 82" fill="none" width="22">
+      <path d="M24,22 C24,12 36,12 36,22" fill="#fbd0d7" stroke="#f4a7b4" stroke-width="1.5"/>
+      <rect x="17" y="19" width="26" height="7" rx="2.5" fill="#f4a7b4"/>
+      <rect x="13" y="26" width="34" height="46" rx="13" fill="#89c4e1"/>
+      <rect x="13" y="46" width="34" height="26" rx="0 0 13 13" fill="#b3d9f2" opacity="0.7"/>
+      <ellipse cx="23" cy="36" rx="5" ry="9" fill="white" opacity="0.3"/>
+    </svg>
+    <span class="icon-divider-line" style="background: #f4a7b4;"></span>
+  </div>
+
+  {#if form?.success}
+    <div class="rsvp-success">
+      <div class="success-icon">
+        <svg viewBox="0 0 52 48" fill="none" width="60">
+          <path d="M26 44C26 44 3 30 3 14C3 7 9 3 14 3C18 3 22 5.5 26 10C30 5.5 34 3 38 3C43 3 49 7 49 14C49 30 26 44 26 44Z" fill="#f4a7b4"/>
+        </svg>
+      </div>
+      <h3>Tack för din anmälan!</h3>
+      <p>Vi ser fram emot att fira denna speciella dag tillsammans med dig.</p>
+    </div>
+  {:else if data.passwordRequired && !unlocked}
+    <div class="rsvp-box">
+      <p class="rsvp-intro">
+        Vi hoppas att du kan komma och fira Þórunn Íris med oss!<br />
+        <strong>Ange lösenordet från inbjudan för att fortsätta.</strong>
+      </p>
+
+      {#if form?.error}
+        <div class="error-msg">{form.error}</div>
+      {/if}
+
+      <form
+        method="POST"
+        action="?/unlock"
+        use:enhance={() => {
+          unlocking = true;
+          return async ({ update }) => {
+            unlocking = false;
+            await update();
+          };
+        }}
+      >
+        <div class="field">
+          <label for="password">Lösenord</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Lösenord"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <button type="submit" class="submit-btn unlock-btn" disabled={unlocking}>
+          {#if unlocking}
+            Kontrollerar…
+          {:else}
+            Lås upp
+            <svg viewBox="0 0 20 20" fill="none" width="18" height="18" style="vertical-align: middle; margin-left: 6px;">
+              <path d="M5 9 V7 a5 5 0 0 1 10 0" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <rect x="4" y="9" width="12" height="9" rx="2" stroke="white" stroke-width="2" fill="none"/>
+            </svg>
+          {/if}
+        </button>
+      </form>
+    </div>
+  {:else}
+    <div class="rsvp-box">
+      <p class="rsvp-intro">
+        Vi hoppas att du kan komma och fira Þórunn Íris med oss!<br />
+        <strong>OSA senast 30 juni 2026</strong>
+      </p>
+
+      {#if form?.error}
+        <div class="error-msg">{form.error}</div>
+      {/if}
+
+      <form
+        method="POST"
+        action="?/rsvp"
+        use:enhance={() => {
+          submitting = true;
+          return async ({ update }) => {
+            submitting = false;
+            await update();
+          };
+        }}
+      >
+        <div class="members">
+          <div class="members-label">Hushållsmedlemmar</div>
+          {#each members as member, i (i)}
+            <div class="member-row">
+              <input
+                class="member-name"
+                name="member_name"
+                type="text"
+                placeholder="Namn"
+                bind:value={member.name}
+                required
+              />
+              <select
+                class="member-food"
+                name="member_food"
+                bind:value={member.food}
+                aria-label="Smörgåstårta"
+              >
+                {#each FOOD_OPTIONS as opt}
+                  <option value={opt.value}>{opt.label}</option>
+                {/each}
+              </select>
+              <button
+                type="button"
+                class="member-remove"
+                on:click={() => removeMember(i)}
+                disabled={members.length <= 1}
+                aria-label="Ta bort person"
+              >
+                ×
+              </button>
+            </div>
+          {/each}
+          <button type="button" class="member-add" on:click={addMember}>
+            <span class="plus">＋</span> Lägg till person
+          </button>
+        </div>
+
+        <button type="submit" class="submit-btn" disabled={submitting}>
+          {#if submitting}
+            Skickar…
+          {:else}
+            Skicka OSA
+            <svg viewBox="0 0 20 20" fill="none" width="18" height="18" style="vertical-align: middle; margin-left: 6px;">
+              <path d="M2 10 L18 10 M12 4 L18 10 L12 16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {/if}
+        </button>
+      </form>
+    </div>
+  {/if}
+</section>
+
+<!-- Wave pink-soft → white -->
+<div class="wave-down">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,45 C480,90 960,0 1440,45 L1440,90 L0,90 Z" fill="#ffffff"/>
   </svg>
 </div>
 
@@ -378,112 +568,6 @@
       loading="lazy"
     ></iframe>
   </div>
-</section>
-
-<!-- Wave white → pink-soft -->
-<div class="wave-down">
-  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0,45 C480,90 960,0 1440,45 L1440,90 L0,90 Z" fill="var(--pink-soft)"/>
-  </svg>
-</div>
-
-<!-- ══════════════════════════════════════════════════ RSVP ══ -->
-<section class="rsvp-section">
-  <div class="section-label" style="color: #c06070;">OSA</div>
-  <div class="icon-divider">
-    <span class="icon-divider-line" style="background: #f4a7b4;"></span>
-    <svg viewBox="0 0 60 82" fill="none" width="22">
-      <path d="M24,22 C24,12 36,12 36,22" fill="#fbd0d7" stroke="#f4a7b4" stroke-width="1.5"/>
-      <rect x="17" y="19" width="26" height="7" rx="2.5" fill="#f4a7b4"/>
-      <rect x="13" y="26" width="34" height="46" rx="13" fill="#89c4e1"/>
-      <rect x="13" y="46" width="34" height="26" rx="0 0 13 13" fill="#b3d9f2" opacity="0.7"/>
-      <ellipse cx="23" cy="36" rx="5" ry="9" fill="white" opacity="0.3"/>
-    </svg>
-    <svg viewBox="0 0 60 82" fill="none" width="28">
-      <path d="M24,22 C24,12 36,12 36,22" fill="#b3d9f2" stroke="#89c4e1" stroke-width="1.5"/>
-      <rect x="17" y="19" width="26" height="7" rx="2.5" fill="#89c4e1"/>
-      <rect x="13" y="26" width="34" height="46" rx="13" fill="#f4a7b4"/>
-      <rect x="13" y="46" width="34" height="26" rx="0 0 13 13" fill="#fbd0d7" opacity="0.7"/>
-      <ellipse cx="23" cy="36" rx="5" ry="9" fill="white" opacity="0.3"/>
-    </svg>
-    <svg viewBox="0 0 60 82" fill="none" width="22">
-      <path d="M24,22 C24,12 36,12 36,22" fill="#fbd0d7" stroke="#f4a7b4" stroke-width="1.5"/>
-      <rect x="17" y="19" width="26" height="7" rx="2.5" fill="#f4a7b4"/>
-      <rect x="13" y="26" width="34" height="46" rx="13" fill="#89c4e1"/>
-      <rect x="13" y="46" width="34" height="26" rx="0 0 13 13" fill="#b3d9f2" opacity="0.7"/>
-      <ellipse cx="23" cy="36" rx="5" ry="9" fill="white" opacity="0.3"/>
-    </svg>
-    <span class="icon-divider-line" style="background: #f4a7b4;"></span>
-  </div>
-
-  {#if form?.success}
-    <div class="rsvp-success">
-      <div class="success-icon">
-        <svg viewBox="0 0 52 48" fill="none" width="60">
-          <path d="M26 44C26 44 3 30 3 14C3 7 9 3 14 3C18 3 22 5.5 26 10C30 5.5 34 3 38 3C43 3 49 7 49 14C49 30 26 44 26 44Z" fill="#f4a7b4"/>
-        </svg>
-      </div>
-      <h3>Tack för din anmälan!</h3>
-      <p>Vi ser fram emot att fira denna speciella dag tillsammans med dig.</p>
-    </div>
-  {:else}
-    <div class="rsvp-box">
-      <p class="rsvp-intro">
-        Vi hoppas att du kan komma och fira Þórunn Íris med oss!<br />
-        <strong>OSA senast 30 juni 2026</strong>
-      </p>
-
-      {#if form?.error}
-        <div class="error-msg">{form.error}</div>
-      {/if}
-
-      <form
-        method="POST"
-        use:enhance={() => {
-          submitting = true;
-          return async ({ update }) => {
-            submitting = false;
-            await update();
-          };
-        }}
-      >
-        <div class="form-fields">
-          <div class="field">
-            <label for="name">Namn</label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              placeholder="Ditt namn"
-              value={form?.name ?? ''}
-              required
-            />
-          </div>
-          <div class="field">
-            <label for="phone">Telefonnummer</label>
-            <input
-              id="phone"
-              name="phone"
-              type="tel"
-              placeholder="070-000 00 00"
-              value={form?.phone ?? ''}
-              required
-            />
-          </div>
-        </div>
-        <button type="submit" class="submit-btn" disabled={submitting}>
-          {#if submitting}
-            Skickar…
-          {:else}
-            Skicka OSA
-            <svg viewBox="0 0 20 20" fill="none" width="18" height="18" style="vertical-align: middle; margin-left: 6px;">
-              <path d="M2 10 L18 10 M12 4 L18 10 L12 16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          {/if}
-        </button>
-      </form>
-    </div>
-  {/if}
 </section>
 
 <!-- ════════════════════════════════════════════════ FOOTER ══ -->
@@ -961,14 +1045,7 @@
   }
   .rsvp-intro strong { color: var(--text); }
 
-  .form-fields {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
   @media (max-width: 500px) {
-    .form-fields { grid-template-columns: 1fr; }
     .rsvp-box { padding: 2rem 1.5rem; }
   }
 
@@ -1027,6 +1104,116 @@
   .submit-btn:disabled {
     opacity: 0.65;
     cursor: not-allowed;
+  }
+  .unlock-btn { margin-top: 1.25rem; }
+
+  /* Household members list */
+  .members {
+    text-align: left;
+    margin-bottom: 1.75rem;
+  }
+  .members-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-mid);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.6rem;
+  }
+  .member-row {
+    display: grid;
+    grid-template-columns: 1fr 200px 36px;
+    gap: 0.6rem;
+    align-items: center;
+    margin-bottom: 0.6rem;
+  }
+  @media (max-width: 500px) {
+    .member-row {
+      grid-template-columns: 1fr 36px;
+      grid-template-areas:
+        "name remove"
+        "food remove";
+      row-gap: 0.4rem;
+    }
+    .member-name { grid-area: name; }
+    .member-food { grid-area: food; }
+    .member-remove { grid-area: remove; align-self: stretch; height: auto; }
+  }
+  .member-name,
+  .member-food {
+    padding: 0.7rem 0.9rem;
+    border: 1.5px solid var(--blue-mid);
+    border-radius: 10px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    background: var(--cream);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    min-width: 0;
+  }
+  .member-name:focus,
+  .member-food:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(137, 196, 225, 0.25);
+  }
+  .member-name::placeholder { color: var(--text-light); }
+  .member-food {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--blue-dark) 50%),
+                      linear-gradient(135deg, var(--blue-dark) 50%, transparent 50%);
+    background-position: calc(100% - 16px) 50%, calc(100% - 11px) 50%;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+    padding-right: 2rem;
+    cursor: pointer;
+  }
+  .member-remove {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid var(--pink-mid);
+    background: white;
+    color: var(--pink-dark);
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .member-remove:hover:not(:disabled) {
+    background: var(--pink-soft);
+    transform: scale(1.05);
+  }
+  .member-remove:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .member-add {
+    margin-top: 0.4rem;
+    background: transparent;
+    border: 1.5px dashed var(--pink);
+    color: var(--pink-dark);
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.6rem 1.1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .member-add:hover {
+    background: var(--pink-soft);
+    border-style: solid;
+  }
+  .member-add .plus {
+    font-size: 1rem;
+    font-weight: 700;
   }
 
   .error-msg {
