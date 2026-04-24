@@ -56,6 +56,7 @@
   />
   <title>Þórunn Íris Pétursdóttir – Dop</title>
   <meta name="description" content="Välkommen på dop av Þórunn Íris Pétursdóttir" />
+  <meta name="theme-color" content="#f4a7b4" />
 </svelte:head>
 
 <!-- ═══════════════════════════════════════════════════ HERO ══ -->

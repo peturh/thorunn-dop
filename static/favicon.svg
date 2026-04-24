@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="heart" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f4a7b4"/>
+      <stop offset="100%" stop-color="#89c4e1"/>
+    </linearGradient>
+  </defs>
+  <!-- soft glow -->
+  <circle cx="32" cy="32" r="30" fill="#fce4e8"/>
+  <!-- heart -->
+  <path
+    d="M32 54 C32 54 8 39 8 22 C8 14 14 9 20 9 C25 9 29 12 32 16 C35 12 39 9 44 9 C50 9 56 14 56 22 C56 39 32 54 32 54 Z"
+    fill="url(#heart)"
+  />
+  <!-- shine -->
+  <ellipse cx="22" cy="20" rx="3.5" ry="6" fill="#ffffff" opacity="0.55" transform="rotate(-25 22 20)"/>
+  <!-- little star sparkle -->
+  <path d="M48 12 L49.4 15 L52.5 16 L49.4 17 L48 20 L46.6 17 L43.5 16 L46.6 15 Z" fill="#FFD166"/>
+</svg>
