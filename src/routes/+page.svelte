@@ -34,7 +34,7 @@
   const googleCalUrl =
     'https://calendar.google.com/calendar/render?action=TEMPLATE' +
     '&text=Dop%20%E2%80%93%20%C3%9E%C3%B3runn%20%C3%8Dris%20P%C3%A9tursd%C3%B3ttir' +
-    '&dates=20260815T120000Z%2F20260815T140000Z' +
+    '&dates=20260815T093000Z%2F20260815T113000Z' +
     '&location=S%3At%20Pauli%20kyrka%2C%20Kungsgatan%2017%2C%20Malm%C3%B6';
 
   onMount(() => {
